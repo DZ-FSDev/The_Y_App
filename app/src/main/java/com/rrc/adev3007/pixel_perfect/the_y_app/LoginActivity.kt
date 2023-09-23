@@ -25,6 +25,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.platform.LocalContext
@@ -32,6 +33,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.rrc.adev3007.pixel_perfect.the_y_app.session.Session
+import androidx.compose.ui.platform.LocalContext
 
 
 class LoginActivity : ComponentActivity() {
@@ -45,6 +48,8 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 fun LoginScreen(){
+    var session = Session.getInstance(LocalContext.current);
+
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisability by remember {
@@ -130,8 +135,8 @@ fun LoginScreen(){
                 .fillMaxWidth(),
         ) {
             Button(
-                onClick = { /*
-                TODO take data from fields and do stuff with them */
+                onClick = {
+                    session!!.putString("username", username)
                           activity.finish()
                           activity.startActivity(Intent(activity, HomeActivity::class.java))
                           },
