@@ -14,6 +14,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,11 +42,17 @@ class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            var session = Session.getInstance(LocalContext.current);
+            var herbAderb by remember { mutableStateOf(1) }
+
             val navController = rememberNavController()
             val currentRoute =
                     navController.currentBackStackEntryAsState().value?.destination?.route
-            Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
-                var session = Session.getInstance(LocalContext.current);
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = if(session!!.getBoolean("darkMode", false)) Color.Black
+                    else Color.White
+                ) {
 
                 Column(modifier = Modifier.fillMaxSize()) {
                     Box(
@@ -72,10 +82,10 @@ class HomeActivity : ComponentActivity() {
 
                     Text(
                         text = "Welcome Back " + session!!.getString("username", "Undefined")!!,
-                        /*color = if(session!!.getBoolean("darkMode", false)) Color.White
-                            else Color.Red*/ /*TODO This doesn't work... */
-                        color = Color.White,
-                        modifier = Modifier.padding(start = 10.dp)
+                        color = if(session!!.getBoolean("darkMode", false)) Color.Blue
+                            else Color.Yellow, /*TODO This doesn't work... */
+//                        color = Color.White,
+                        modifier = Modifier.padding(start = 0.dp)
                     )
 
                     Spacer(modifier = Modifier
@@ -97,7 +107,8 @@ class HomeActivity : ComponentActivity() {
                             modifier = Modifier.padding(horizontal = 30.dp)
                     )
                 }
-                Drawer()
+                val r: () -> Unit = {navController.navigate("Search"); navController.navigate("Home")}
+                Drawer(onStateChanged = r)
             }
         }
     }

@@ -33,7 +33,7 @@ object DrawerState {
 }
 
 @Composable
-fun Drawer() {
+fun Drawer(onStateChanged: () -> Unit) {
     var session = Session.getInstance(LocalContext.current);
 
     val isDrawerOpen = DrawerState.isDrawerOpen
@@ -50,7 +50,6 @@ fun Drawer() {
                 ScalingLevel.valueOf(session?.getString("scale", ScalingLevel.Normal.toString()) ?: ScalingLevel.Normal.toString())
             )
         }
-
 
         Column(
                 modifier =
@@ -70,12 +69,10 @@ fun Drawer() {
             Text(
                     text = "Settings",
                     modifier = Modifier.padding(horizontal = 19.dp, vertical = 8.dp),
-                    fontSize =
-                            if (session!!.getString("scale", "") == ScalingLevel.Small.toString()) 15.sp
+                    fontSize = if (session!!.getString("scale", "") == ScalingLevel.Small.toString()) 15.sp
                             else if (session!!.getString("scale", "") == ScalingLevel.Normal.toString()) 20.sp
                             else 25.sp,
-                    color =
-                            if (session!!.getBoolean("darkMode", false)) Color.White
+                    color = if (session!!.getBoolean("darkMode", false)) Color.White
                             else Color.Black // Set font color
             )
 
@@ -85,40 +82,58 @@ fun Drawer() {
                 onLevelChange = {
                     scale = it
                     session!!.putString("scale", it.toString())
-                }
+                },
+                fontSize =
+                if (session!!.getString("scale", "") == ScalingLevel.Small.toString()) 10.sp
+                else if (session!!.getString("scale", "") == ScalingLevel.Normal.toString()) 12.sp
+                else 14.sp,
+                color =
+                if (session!!.getBoolean("darkMode", false)) Color.White
+                else Color.Black // Set font color
             )
 
             SettingToggle(
                     text = "Dark Mode",
+                    fontSize =
+                    if (session!!.getString("scale", "") == ScalingLevel.Small.toString()) 10.sp
+                    else if (session!!.getString("scale", "") == ScalingLevel.Normal.toString()) 12.sp
+                    else 14.sp,
+                    color =
+                    if (session!!.getBoolean("darkMode", false)) Color.White
+                    else Color.Black,
                     initialChecked = darkMode,
                     onCheckedChange = {
                         darkMode = it
                         session!!.putBoolean("darkMode", it)
+                        onStateChanged()
                     }
             )
             SettingToggle(
-                    text = "Auto Play",
-                    initialChecked = autoplay,
-                    onCheckedChange = {
-                        autoplay = it
-                        session!!.putBoolean("autoplay", it)
-                    }
+                text = "Auto Play",
+                initialChecked = autoplay,
+                onCheckedChange = {
+                    autoplay = it
+                    session!!.putBoolean("autoplay", it)
+                },
+                fontSize = if (session!!.getString("scale", "") == ScalingLevel.Small.toString()) 10.sp
+                else if (session!!.getString("scale", "") == ScalingLevel.Normal.toString()) 12.sp
+                else 14.sp,
+                color = if (session!!.getBoolean("darkMode", false)) Color.White
+                else Color.Black
             )
             SettingToggle(
-                    text = "Profanity Filter",
-                    initialChecked = profanityFilter,
-                    onCheckedChange = {
-                        profanityFilter = it
-                        session!!.putBoolean("profanityFilter", it)
-                    }
+                text = "Profanity Filter",
+                initialChecked = profanityFilter,
+                onCheckedChange = {
+                    profanityFilter = it
+                    session!!.putBoolean("profanityFilter", it)
+                },
+                fontSize = if (session!!.getString("scale", "") == ScalingLevel.Small.toString()) 10.sp
+                else if (session!!.getString("scale", "") == ScalingLevel.Normal.toString()) 12.sp
+                else 14.sp,
+                color = if (session!!.getBoolean("darkMode", false)) Color.White
+                else Color.Black
             )
         }
     }
-}
-
-@Preview
-@Composable
-fun DrawerPreview() {
-    DrawerState.toggleDrawer()
-    Drawer()
 }
