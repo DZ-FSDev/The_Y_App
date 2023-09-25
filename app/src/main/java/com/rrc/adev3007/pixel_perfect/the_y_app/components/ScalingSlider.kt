@@ -5,7 +5,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 
 enum class ScalingLevel {
@@ -16,7 +18,9 @@ enum class ScalingLevel {
 fun ScalingSlider(
     text: String,
     initialLevel: ScalingLevel = ScalingLevel.Normal,
-    onLevelChange: (ScalingLevel) -> Unit
+    onLevelChange: (ScalingLevel) -> Unit,
+    fontSize: TextUnit,
+    color: Color
 ) {
     var selectedLevel by remember { mutableStateOf(initialLevel) }
 
@@ -30,7 +34,9 @@ fun ScalingSlider(
             modifier = Modifier.padding(end = 16.dp)
         ) {
             Text(
-                text = "$text:  $selectedLevel"
+                text = "$text:  $selectedLevel",
+                fontSize = fontSize,
+                color = color
             )
 
             Slider(
