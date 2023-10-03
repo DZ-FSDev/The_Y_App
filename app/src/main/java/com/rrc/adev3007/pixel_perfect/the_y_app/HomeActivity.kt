@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,81 +36,86 @@ import com.rrc.adev3007.pixel_perfect.the_y_app.pages.Dislikes
 import com.rrc.adev3007.pixel_perfect.the_y_app.pages.Home
 import com.rrc.adev3007.pixel_perfect.the_y_app.pages.Search
 import com.rrc.adev3007.pixel_perfect.the_y_app.ui.theme.LogoFontFamily
-import com.rrc.adev3007.pixel_perfect.the_y_app.session.Session
-import androidx.compose.ui.platform.LocalContext
+import com.rrc.adev3007.pixel_perfect.the_y_app.session.SessionViewModel
 
 class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val viewModel = SessionViewModel(applicationContext)
         setContent {
-            var session = Session.getInstance(LocalContext.current);
-            var herbAderb by remember { mutableStateOf(1) }
+            HomeScreen(viewModel)
+        }
+    }
 
-            val navController = rememberNavController()
-            val currentRoute =
-                    navController.currentBackStackEntryAsState().value?.destination?.route
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = if(session!!.getBoolean("darkMode", false)) Color.Black
-                    else Color.White
+    @Composable
+    fun HomeScreen(viewModel: SessionViewModel) {
+        val darkMode by viewModel.darkMode
+        val username by viewModel.username
+        var herbAderb by remember { mutableStateOf(1) }
+
+        val navController = rememberNavController()
+        val currentRoute =
+            navController.currentBackStackEntryAsState().value?.destination?.route
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = if(darkMode) Color.Black
+            else Color.White
+        ) {
+
+            Column(modifier = Modifier.fillMaxSize()) {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.CenterStart
                 ) {
-
-                Column(modifier = Modifier.fillMaxSize()) {
-                    Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.CenterStart
-                    ) {
-                        DefaultProfileIcon(
-                                modifier = Modifier
-                                    .padding(16.dp)
-                                    .align(Alignment.TopStart),
-                                onClick = { DrawerState.toggleDrawer() }
-                        )
-                        Text(
-                                text = "y",
-                                color = Color.White,
-                                fontSize = 30.sp,
-                                fontFamily = LogoFontFamily,
-                                modifier =
-                                Modifier
-                                    .align(Alignment.TopCenter)
-                                    .clickable {
-                                        if (currentRoute != "Home")
-                                            navController.navigate("Home")
-                                    }
-                        )
-                    }
-
-                    Text(
-                        text = "Welcome Back " + session!!.getString("username", "Undefined")!!,
-                        color = if(session!!.getBoolean("darkMode", false)) Color.Blue
-                            else Color.Yellow, /*TODO This doesn't work... */
-//                        color = Color.White,
-                        modifier = Modifier.padding(start = 0.dp)
+                    DefaultProfileIcon(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .align(Alignment.TopStart),
+                        onClick = { DrawerState.toggleDrawer() }
                     )
-
-                    Spacer(modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
-                        .background(Color.White))
-                    NavHost(
-                            navController,
-                            startDestination = "Home",
-                            modifier = Modifier.weight(1f)
-                    ) {
-                        composable("Home") { Home() }
-                        composable("Search") { Search() }
-                        composable("Dislikes") { Dislikes() }
-                    }
-                    BottomNavBar(
-                            navController = navController,
-                            currentRoute = currentRoute,
-                            modifier = Modifier.padding(horizontal = 30.dp)
+                    Text(
+                        text = "y",
+                        color = Color.White,
+                        fontSize = 30.sp,
+                        fontFamily = LogoFontFamily,
+                        modifier =
+                        Modifier
+                            .align(Alignment.TopCenter)
+                            .clickable {
+                                if (currentRoute != "Home")
+                                    navController.navigate("Home")
+                            }
                     )
                 }
-                val r: () -> Unit = {navController.navigate("Search"); navController.navigate("Home")}
-                Drawer(onStateChanged = r)
+
+                Text(
+                    text = "Welcome Back $username",
+                    color = if(darkMode) Color.Blue
+                    else Color.Yellow, /*TODO This doesn't work... */
+//                        color = Color.White,
+                    modifier = Modifier.padding(start = 0.dp)
+                )
+
+                Spacer(modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+                    .background(Color.White))
+                NavHost(
+                    navController,
+                    startDestination = "Home",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    composable("Home") { Home() }
+                    composable("Search") { Search() }
+                    composable("Dislikes") { Dislikes() }
+                }
+                BottomNavBar(
+                    navController = navController,
+                    currentRoute = currentRoute,
+                    modifier = Modifier.padding(horizontal = 30.dp)
+                )
             }
+            Drawer(viewModel)
         }
     }
 }

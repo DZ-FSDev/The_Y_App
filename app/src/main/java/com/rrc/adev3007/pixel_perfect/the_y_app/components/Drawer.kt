@@ -12,16 +12,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import com.rrc.adev3007.pixel_perfect.the_y_app.session.Session
-import androidx.compose.ui.platform.LocalContext
+import com.rrc.adev3007.pixel_perfect.the_y_app.session.SessionViewModel
 
 
 object DrawerState {
@@ -33,24 +30,17 @@ object DrawerState {
 }
 
 @Composable
-fun Drawer(onStateChanged: () -> Unit) {
-    var session = Session.getInstance(LocalContext.current);
-
+fun Drawer(viewModel: SessionViewModel) {
     val isDrawerOpen = DrawerState.isDrawerOpen
     AnimatedVisibility(
             visible = isDrawerOpen,
             enter = slideInHorizontally(initialOffsetX = { -it }),
             exit = slideOutHorizontally(targetOffsetX = { -it }),
     ) {
-        var darkMode by remember { mutableStateOf(session!!.getBoolean("darkMode", false)) }
-        var autoplay by remember { mutableStateOf(session!!.getBoolean("autoplay",false)) }
-        var profanityFilter by remember { mutableStateOf(session!!.getBoolean("profanityFilter",false)) }
-        var scale by remember {
-            mutableStateOf(
-                ScalingLevel.valueOf(session?.getString("scale", ScalingLevel.Normal.toString()) ?: ScalingLevel.Normal.toString())
-            )
-        }
-
+        val darkMode by viewModel.darkMode
+        val autoplay by viewModel.autoplay
+        val profanityFilter by viewModel.profanityFilter
+        val scale by viewModel.scale
         Column(
                 modifier =
                         Modifier.zIndex(100f)
@@ -69,69 +59,64 @@ fun Drawer(onStateChanged: () -> Unit) {
             Text(
                     text = "Settings",
                     modifier = Modifier.padding(horizontal = 19.dp, vertical = 8.dp),
-                    fontSize = if (session!!.getString("scale", "") == ScalingLevel.Small.toString()) 15.sp
-                            else if (session!!.getString("scale", "") == ScalingLevel.Normal.toString()) 20.sp
-                            else 25.sp,
-                    color = if (session!!.getBoolean("darkMode", false)) Color.White
+                    fontSize = when (scale) {
+                        ScalingLevel.Small -> 15.sp
+                        ScalingLevel.Normal -> 20.sp
+                        else -> 25.sp
+                    },
+                    color = if (darkMode) Color.White
                             else Color.Black // Set font color
             )
 
             ScalingSlider(
                 text = "UI Scaling",
                 initialLevel = scale,
-                onLevelChange = {
-                    scale = it
-                    session!!.putString("scale", it.toString())
+                onLevelChange = { viewModel.updateScale(it) },
+                fontSize = when (scale) {
+                    ScalingLevel.Small -> 10.sp
+                    ScalingLevel.Normal -> 12.sp
+                    else -> 14.sp
                 },
-                fontSize =
-                if (session!!.getString("scale", "") == ScalingLevel.Small.toString()) 10.sp
-                else if (session!!.getString("scale", "") == ScalingLevel.Normal.toString()) 12.sp
-                else 14.sp,
                 color =
-                if (session!!.getBoolean("darkMode", false)) Color.White
+                if (darkMode) Color.White
                 else Color.Black // Set font color
             )
 
             SettingToggle(
                     text = "Dark Mode",
-                    fontSize =
-                    if (session!!.getString("scale", "") == ScalingLevel.Small.toString()) 10.sp
-                    else if (session!!.getString("scale", "") == ScalingLevel.Normal.toString()) 12.sp
-                    else 14.sp,
+                    fontSize = when (scale) {
+                        ScalingLevel.Small -> 10.sp
+                        ScalingLevel.Normal -> 12.sp
+                        else -> 14.sp
+                    },
                     color =
-                    if (session!!.getBoolean("darkMode", false)) Color.White
+                    if (darkMode) Color.White
                     else Color.Black,
                     initialChecked = darkMode,
-                    onCheckedChange = {
-                        darkMode = it
-                        session!!.putBoolean("darkMode", it)
-                        onStateChanged()
-                    }
+                    onCheckedChange = { viewModel.toggleDarkMode() }
             )
             SettingToggle(
                 text = "Auto Play",
                 initialChecked = autoplay,
-                onCheckedChange = {
-                    autoplay = it
-                    session!!.putBoolean("autoplay", it)
+                onCheckedChange = { viewModel.toggleAutoplay() },
+                fontSize = when (scale) {
+                    ScalingLevel.Small -> 10.sp
+                    ScalingLevel.Normal -> 12.sp
+                    else -> 14.sp
                 },
-                fontSize = if (session!!.getString("scale", "") == ScalingLevel.Small.toString()) 10.sp
-                else if (session!!.getString("scale", "") == ScalingLevel.Normal.toString()) 12.sp
-                else 14.sp,
-                color = if (session!!.getBoolean("darkMode", false)) Color.White
+                color = if (darkMode) Color.White
                 else Color.Black
             )
             SettingToggle(
                 text = "Profanity Filter",
                 initialChecked = profanityFilter,
-                onCheckedChange = {
-                    profanityFilter = it
-                    session!!.putBoolean("profanityFilter", it)
+                onCheckedChange = { viewModel.toggleProfanityFilter() },
+                fontSize = when (scale) {
+                    ScalingLevel.Small -> 10.sp
+                    ScalingLevel.Normal -> 12.sp
+                    else -> 14.sp
                 },
-                fontSize = if (session!!.getString("scale", "") == ScalingLevel.Small.toString()) 10.sp
-                else if (session!!.getString("scale", "") == ScalingLevel.Normal.toString()) 12.sp
-                else 14.sp,
-                color = if (session!!.getBoolean("darkMode", false)) Color.White
+                color = if (darkMode) Color.White
                 else Color.Black
             )
         }
