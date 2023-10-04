@@ -144,7 +144,7 @@ graph TD
 | Team Member | Bio |
 | :-: | :- |
 | ![a](https://avatars.githubusercontent.com/u/85122787?v=4) <br> Don Zhu <br> Project Manager | I am a driven and talented software developer who has taken unique interest in Financial Technologies. I've built high frequency algorithms, securities exchange emulation and capital transaction tools. Everything around you is data and markets. The goal is always to innovate ways to capture and leverage that data. The market determines the capital for the data and that fuels the process. |
-| Morgan Schepp | Lead Mobile Systems Developer |
+| ![a](https://avatars.githubusercontent.com/u/94935841?v=4) <br> Morgan Schepp <br> Lead Mobile Systems Developer | Hi! I'm Morgan, a student in the RRC Business Information Technology (BIT) program. I'm experienced in full-stack web development and have an interest in mobile app development. I'm passionate about tech, a quick learner, and always excited to explore new opportunities in the digital world. Let's connect and innovate together! 🚀✨ |
 | William Brar | Lead Mobile Systems Developer |
 | Someone | Helped with PR1 |
 | Someone | Helped with PR2? |
