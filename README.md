@@ -145,7 +145,7 @@ graph TD
 | :-: | :- |
 | ![a](https://avatars.githubusercontent.com/u/85122787?v=4) <br> Don Zhu <br> Project Manager | I am a driven and talented software developer who has taken unique interest in Financial Technologies. I've built high frequency algorithms, securities exchange emulation and capital transaction tools. Everything around you is data and markets. The goal is always to innovate ways to capture and leverage that data. The market determines the capital for the data and that fuels the process. |
 | ![a](https://avatars.githubusercontent.com/u/94935841?v=4) <br> Morgan Schepp <br> Lead Mobile Systems Developer | Hi! I'm Morgan, a student in the RRC Business Information Technology (BIT) program. I'm experienced in full-stack web development and have an interest in mobile app development. I'm passionate about tech, a quick learner, and always excited to explore new opportunities in the digital world. Let's connect and innovate together! 🚀✨ |
-| William Brar | Lead Mobile Systems Developer |
+| William Brar <br> Programmer | <br> Hello, I am currently a student at Red River College taking the Business Information Technology program. Graduation is just around the corner, and I find joy in tacking problems and crafting solutions. My journey in programming has been fueled by passion for the craft and a fascination with the evolution of technology in the landscape. I’m mostly familiar with full-stack web development and am eager to bring my programming knowledge and problem-solving skills to new heights.<br><br> |
 | Someone | Helped with PR1 |
 | Someone | Helped with PR2? |
 | Someone | Helped with PR3? |
