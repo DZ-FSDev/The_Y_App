@@ -91,8 +91,7 @@ class HomeActivity : ComponentActivity() {
                 Text(
                     text = "Welcome Back $username",
                     color = if(darkMode) Color.Blue
-                    else Color.Yellow, /*TODO This doesn't work... */
-//                        color = Color.White,
+                    else Color.Yellow,
                     modifier = Modifier.padding(start = 0.dp)
                 )
 

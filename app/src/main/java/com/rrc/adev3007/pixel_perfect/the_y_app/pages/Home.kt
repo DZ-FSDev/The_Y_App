@@ -14,8 +14,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.rrc.adev3007.pixel_perfect.the_y_app.R
 import com.rrc.adev3007.pixel_perfect.the_y_app.components.PostItem
-import com.rrc.adev3007.pixel_perfect.the_y_app.models.Post
 
+data class Post(
+    val name: String,
+    val username: String,
+    val profileImage: Int,
+    val time: String,
+    val content: String
+)
 @Composable
 fun Home() {
     val tweets = listOf(
