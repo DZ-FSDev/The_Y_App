@@ -2,6 +2,9 @@ package com.rrc.adev3007.pixel_perfect.the_y_app.data
 
 import com.rrc.adev3007.pixel_perfect.the_y_app.data.models.Post
 import com.rrc.adev3007.pixel_perfect.the_y_app.data.models.CreatePostRequest
+import com.rrc.adev3007.pixel_perfect.the_y_app.data.models.UserAccount
+import com.rrc.adev3007.pixel_perfect.the_y_app.data.models.UserAuth
+import com.rrc.adev3007.pixel_perfect.the_y_app.data.models.UserCreate
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -19,6 +22,12 @@ interface ISynchronizer {
     ) : Response<List<Post>>
     @POST("post")
     suspend fun createPost(@Body data: CreatePostRequest) : Response<Any>
+
+    @POST("login")
+    suspend fun postLogin(@Body loginAuth: UserAuth ) : Response<UserAccount>
+
+    @POST("user")
+    suspend fun postUser(@Body createUser: UserCreate) : Response<Any>
 }
 
 private const val BASE_URL = "https://the-y-app-api.azurewebsites.net/api/"

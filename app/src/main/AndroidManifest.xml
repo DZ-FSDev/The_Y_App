@@ -20,6 +20,10 @@
             android:exported="false"
             android:theme="@style/Theme.The_Y_App" />
         <activity
+            android:name=".CreateUserActivity"
+            android:exported="false"
+            android:theme="@style/Theme.The_Y_App" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
