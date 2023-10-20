@@ -191,7 +191,6 @@ fun CreateUserScreen(viewModel: SessionViewModel) {
                                 val response = Synchronizer.api.postUser(user)
                                 if (response.isSuccessful) {
                                     val createdUser = UserAuth(userViewModel.email, userViewModel.password)
-                                    Log.i("UserCreated", response.body().toString())
                                     val navigate = Intent(activity, LoginActivity::class.java)
                                     navigate.putExtra("CreatedUser", createdUser)
                                     activity.finish()

@@ -62,13 +62,10 @@ fun LoginScreen(viewModel: SessionViewModel) {
     val coroutineScope = rememberCoroutineScope()
     var errorString by remember { mutableStateOf<String>("") }
 
-    Log.i("LoginCheckforExtra", activity?.intent?.extras.toString())
-
     if (activity.intent.extras != null) {
         val extras = activity.intent.extras
         if (extras?.containsKey("CreatedUser") == true) {
             val createdUser = extras.getSerializable("CreatedUser") as? UserAuth
-            Log.i("LoginData", "Created User ${createdUser}")
             createdUser?.let { userAuth ->
                 LaunchedEffect(userAuth) {
                     try {
