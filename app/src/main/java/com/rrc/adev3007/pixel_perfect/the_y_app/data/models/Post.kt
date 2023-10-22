@@ -1,16 +1,25 @@
 package com.rrc.adev3007.pixel_perfect.the_y_app.data.models
 
+import com.google.gson.annotations.SerializedName
+
 data class Post(
-    val name: String,
-    val username: String,
-    val profileImage: Int,
-    val time: String,
-    val content: String
+    @SerializedName("first_name")
+    val firstName: String,
+    @SerializedName("last_name")
+    val lastName: String,
+    @SerializedName("profile_picture")
+    val profileImg: String?,
+    val content: String,
+    val media: String?,
+    @SerializedName("created_at")
+    val createdAt: String
 )
 
 data class CreatePostRequest(
-    val api_key: String,
-    val content: String,
+    @SerializedName("api_key")
+    val apiKey: String,
     val email: String,
-    val media_id: Int
+    val content: String,
+    @SerializedName("media_id")
+    val mediaId: Int?
 )
