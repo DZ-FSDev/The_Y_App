@@ -51,7 +51,7 @@ class HomeActivity : ComponentActivity() {
     fun HomeScreen(viewModel: SessionViewModel) {
         val darkMode by viewModel.darkMode
         val username by viewModel.username
-        var herbAderb by remember { mutableStateOf(1) }
+        val profilePicture by viewModel.profilePicture
 
         val navController = rememberNavController()
         val currentRoute =
@@ -71,7 +71,8 @@ class HomeActivity : ComponentActivity() {
                         modifier = Modifier
                             .padding(16.dp)
                             .align(Alignment.TopStart),
-                        onClick = { DrawerState.toggleDrawer() }
+                        onClick = { DrawerState.toggleDrawer() },
+                        imageBase64 = profilePicture
                     )
                     Text(
                         text = "y",
