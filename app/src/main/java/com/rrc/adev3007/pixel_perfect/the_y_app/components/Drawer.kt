@@ -88,9 +88,8 @@ fun Drawer(viewModel: SessionViewModel) {
                                     viewModel.apiKey.value,
                                     selectedImageB64
                                 ))
-                                Log.d("Drawer.kt", viewModel.apiKey.toString() + " - " + viewModel.email.toString())
-                                Log.d("Drawer.kt", "response $response")
-                                val selectedImageMediaId = Gson().fromJson(response.body().toString(), Media.MediaCreateResponse::class.java).id
+                                Log.d("Drawer.kt", "response ${response.body()!!.id}")
+                                val selectedImageMediaId = response.body()!!.id
 
                                 Synchronizer.api.patchUserProfilePicture(UserProfilePicture(
                                     viewModel.email.value,

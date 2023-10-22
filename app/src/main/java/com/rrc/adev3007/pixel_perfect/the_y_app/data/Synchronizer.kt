@@ -36,7 +36,7 @@ interface ISynchronizer {
     suspend fun patchUserProfilePicture(@Body createUser: UserProfilePicture) : Response<Any>
 
     @POST("media")
-    suspend fun postMedia(@Body createMedia: Media.MediaCreate) : Response<Any>
+    suspend fun postMedia(@Body createMedia: Media.MediaCreate) : Response<Media.MediaCreateResponse>
 }
 
 private const val BASE_URL = "https://the-y-app-api.azurewebsites.net/api/"
