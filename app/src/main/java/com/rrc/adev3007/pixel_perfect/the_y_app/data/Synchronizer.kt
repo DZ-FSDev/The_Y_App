@@ -2,15 +2,18 @@ package com.rrc.adev3007.pixel_perfect.the_y_app.data
 
 import com.rrc.adev3007.pixel_perfect.the_y_app.data.models.Post
 import com.rrc.adev3007.pixel_perfect.the_y_app.data.models.CreatePostRequest
+import com.rrc.adev3007.pixel_perfect.the_y_app.data.models.Media
 import com.rrc.adev3007.pixel_perfect.the_y_app.data.models.UserAccount
 import com.rrc.adev3007.pixel_perfect.the_y_app.data.models.UserAuth
 import com.rrc.adev3007.pixel_perfect.the_y_app.data.models.UserCreate
+import com.rrc.adev3007.pixel_perfect.the_y_app.data.models.UserProfilePicture
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -28,6 +31,12 @@ interface ISynchronizer {
 
     @POST("user")
     suspend fun postUser(@Body createUser: UserCreate) : Response<Any>
+
+    @PATCH("user")
+    suspend fun patchUserProfilePicture(@Body createUser: UserProfilePicture) : Response<Any>
+
+    @POST("media")
+    suspend fun postMedia(@Body createMedia: Media.MediaCreate) : Response<Any>
 }
 
 private const val BASE_URL = "https://the-y-app-api.azurewebsites.net/api/"
