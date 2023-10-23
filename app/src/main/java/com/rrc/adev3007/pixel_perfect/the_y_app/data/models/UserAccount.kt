@@ -34,3 +34,10 @@ data class UserCreate(
     val password: String
 )
 
+data class UserProfilePicture(
+    val email:String,
+    @SerializedName("api_key")
+    val apiKey: String,
+    @SerializedName("profile_picture_media_id")
+    val media_id: Int
+) : Serializable

@@ -76,4 +76,13 @@ class SessionViewModel(context: Context) : ViewModel() {
         session.putString("scale", newScale.toString())
         (scale as MutableState<ScalingLevel>).value = newScale
     }
+
+    fun setProfilePic(picBase64: String){
+        session.putString("profilePicture", picBase64)
+        (profilePicture as MutableState<String?>).value = picBase64
+    }
+
+    fun logOut() {
+        session.clearSession()
+    }
 }
