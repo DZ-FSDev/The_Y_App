@@ -50,16 +50,16 @@ class HomeActivity : ComponentActivity() {
         val postViewModel = PostViewModel()
         val sessionViewModel = SessionViewModel(applicationContext)
         setContent {
-            HomeScreen(postViewModel, sessionViewModel)
+            HomeScreen(sessionViewModel, postViewModel)
         }
     }
 
     @ExperimentalComposeUiApi
     @Composable
-    fun HomeScreen(viewModel: SessionViewModel) {
-        val darkMode by viewModel.darkMode
-        val username by viewModel.username
-        val profilePicture by viewModel.profilePicture
+    fun HomeScreen(sessionViewModel: SessionViewModel, postViewModel: PostViewModel) {
+        val darkMode by sessionViewModel.darkMode
+        val username by sessionViewModel.username
+        val profilePicture by sessionViewModel.profilePicture
 
         val navController = rememberNavController()
         val currentRoute =
