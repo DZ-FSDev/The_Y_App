@@ -19,7 +19,7 @@ import com.rrc.adev3007.pixel_perfect.the_y_app.R
 fun PostItem(
     name: String,
     username: String,
-    profileImage: Int,
+    profileImage: String?,
     time: String,
     content: String,
     modifier: Modifier
@@ -31,7 +31,7 @@ fun PostItem(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             ProfileIcon(
-                drawableRes = profileImage,
+                drawableRes = R.drawable.person,
                 iconSize = 38.dp,
                 modifier = Modifier
             )
@@ -67,7 +67,7 @@ fun PreviewPost() {
     PostItem(
         name = "Sample Post",
         username = "SampleUser",
-        profileImage = R.drawable.person,
+        profileImage = null,
         time = "2h",
         content = "This is the post content",
         modifier = Modifier

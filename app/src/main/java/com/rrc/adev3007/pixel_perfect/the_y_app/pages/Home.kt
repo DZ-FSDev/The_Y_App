@@ -8,39 +8,38 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.rrc.adev3007.pixel_perfect.the_y_app.R
 import com.rrc.adev3007.pixel_perfect.the_y_app.components.PostItem
+import com.rrc.adev3007.pixel_perfect.the_y_app.data.viewModels.PostViewModel
+import com.rrc.adev3007.pixel_perfect.the_y_app.session.SessionViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-data class Post(
-    val name: String,
-    val username: String,
-    val profileImage: Int,
-    val time: String,
-    val content: String
-)
 @Composable
-fun Home() {
-    val tweets = listOf(
-        Post("Jimmy Neutron", "@Jimmy", R.drawable.jimmy, "2h ago", "Just launched a new experiment. Stay tuned for the results! \uD83D\uDD2C"),
-        Post("James Bond", "@007", R.drawable.james,"5h ago", "Mission accomplished. It's been a busy day in the world of espionage. #SecretAgentLife"),
-        Post("Tesla Motors", "@TheRealTesla", R.drawable.tesla,"7h ago", "Electric cars are the future! Join us in the green revolution. \uD83C\uDF3F⚡️"),
-        Post("Walter White", "@Heisenberg", R.drawable.walter,"10h ago", "Breaking Bad fans, remember the good old days? #HeisenbergReturns"),
-    )
+fun Home(viewModel: PostViewModel, sessionViewModel: SessionViewModel) {
+    var posts by viewModel.homePosts
+    LaunchedEffect(Unit) {
+        if (posts.isEmpty()) {
+            posts = viewModel.getHomePosts(sessionViewModel.email.value, sessionViewModel.apiKey.value)
+        }
+    }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        items(tweets.size) {index ->
+        items(posts.size) { index ->
             PostItem(
-                name = tweets[index].name,
-                username = tweets[index].username,
-                profileImage = tweets[index].profileImage,
-                time = tweets[index].time,
-                content = tweets[index].content,
+                name = "${posts[index].firstName} ${posts[index].lastName}",
+                username = "@${posts[index].firstName}",
+                profileImage = posts[index].media,
+                time = convertToRelativeTime(posts[index].createdAt),
+                content = posts[index].content,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
@@ -60,8 +59,27 @@ fun Home() {
     }
 }
 
-@Preview
-@Composable
-fun PreviewHome() {
-    Home()
+private fun convertToRelativeTime(dateString: String): String {
+    val dateFormat = SimpleDateFormat("E, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH)
+    val date = dateFormat.parse(dateString)
+
+    if (date != null) {
+        val currentTime = Date()
+        val diff = currentTime.time - date.time
+        val seconds = diff / 1000
+        val minutes = seconds / 60
+        val hours = minutes / 60
+        val days = hours / 24
+        val weeks = days / 7
+
+        return when {
+            weeks >= 1 -> "${weeks.toInt()}w ago"
+            days >= 1 -> "${days.toInt()}d ago"
+            hours >= 1 -> "${hours.toInt()}h ago"
+            minutes >= 1 -> "${minutes.toInt()}m ago"
+            else -> "1m ago"
+        }
+    }
+
+    return ""
 }

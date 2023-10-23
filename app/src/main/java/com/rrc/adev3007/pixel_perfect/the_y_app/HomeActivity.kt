@@ -16,10 +16,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -32,21 +30,31 @@ import com.rrc.adev3007.pixel_perfect.the_y_app.components.BottomNavBar
 import com.rrc.adev3007.pixel_perfect.the_y_app.components.DefaultProfileIcon
 import com.rrc.adev3007.pixel_perfect.the_y_app.components.Drawer
 import com.rrc.adev3007.pixel_perfect.the_y_app.components.DrawerState
+import com.rrc.adev3007.pixel_perfect.the_y_app.components.FloatingCreatePostButton
+import com.rrc.adev3007.pixel_perfect.the_y_app.data.viewModels.PostViewModel
 import com.rrc.adev3007.pixel_perfect.the_y_app.pages.Dislikes
 import com.rrc.adev3007.pixel_perfect.the_y_app.pages.Home
 import com.rrc.adev3007.pixel_perfect.the_y_app.pages.Search
 import com.rrc.adev3007.pixel_perfect.the_y_app.ui.theme.LogoFontFamily
 import com.rrc.adev3007.pixel_perfect.the_y_app.session.SessionViewModel
 
+/*
+* Experimental API's used:
+* androidx.compose.ui.platform.LocalSoftwareKeyboardController:
+*       NewPostForm.kt:62
+*/
 class HomeActivity : ComponentActivity() {
+    @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModel = SessionViewModel(applicationContext)
+        val postViewModel = PostViewModel()
+        val sessionViewModel = SessionViewModel(applicationContext)
         setContent {
-            HomeScreen(viewModel)
+            HomeScreen(postViewModel, sessionViewModel)
         }
     }
 
+    @ExperimentalComposeUiApi
     @Composable
     fun HomeScreen(viewModel: SessionViewModel) {
         val darkMode by viewModel.darkMode
@@ -105,7 +113,7 @@ class HomeActivity : ComponentActivity() {
                     startDestination = "Home",
                     modifier = Modifier.weight(1f)
                 ) {
-                    composable("Home") { Home() }
+                    composable("Home") { Home(postViewModel, sessionViewModel) }
                     composable("Search") { Search() }
                     composable("Dislikes") { Dislikes() }
                 }
@@ -115,7 +123,8 @@ class HomeActivity : ComponentActivity() {
                     modifier = Modifier.padding(horizontal = 30.dp)
                 )
             }
-            Drawer(viewModel)
+            FloatingCreatePostButton(sessionViewModel, postViewModel)
+            Drawer(sessionViewModel)
         }
     }
 }
