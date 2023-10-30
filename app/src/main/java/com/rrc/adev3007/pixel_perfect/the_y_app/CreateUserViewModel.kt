@@ -10,6 +10,7 @@ class CreateUserViewModel : ViewModel() {
     var password by mutableStateOf("")
     var firstName by mutableStateOf("")
     var lastName by mutableStateOf("")
+    var username by mutableStateOf("")
     var errors by mutableStateOf<Map<String, String>>(emptyMap())
 
     fun validateEmail(): Map<String, String>{
@@ -43,6 +44,10 @@ class CreateUserViewModel : ViewModel() {
 
         if (lastName.isBlank()) {
             updatedErrors["lastName"] = "Last name is required"
+        }
+
+        if(username.isBlank()){
+            updatedErrors["username"] = "Username is required"
         }
 
         errors = updatedErrors
