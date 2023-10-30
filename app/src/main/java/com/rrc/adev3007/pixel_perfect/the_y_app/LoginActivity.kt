@@ -80,8 +80,6 @@ fun LoginScreen(viewModel: SessionViewModel) {
                                 viewModel.updateLastName(userAccount?.lastName.toString())
                                 viewModel.updateScale((ScalingLevel.valueOf(userAccount?.uiScale.toString())))
                                 viewModel.updateProfilePicture(userAccount?.profilePicture?.toString())
-                                // placeholder to test username update
-                                viewModel.updateUsername("${viewModel.firstName.value} ${viewModel.lastName.value}")
                                 activity.finish()
                                 activity.startActivity(Intent(activity, HomeActivity::class.java))
                             } else {
@@ -205,8 +203,6 @@ fun LoginScreen(viewModel: SessionViewModel) {
                                     viewModel.updateLastName(userAccount?.lastName.toString())
                                     viewModel.updateScale((ScalingLevel.valueOf(userAccount?.uiScale.toString())))
                                     viewModel.updateProfilePicture(userAccount?.profilePicture?.toString())
-                                    //placeholder to test username update
-                                    viewModel.updateUsername("${viewModel.firstName.value} ${viewModel.lastName.value}")
                                     activity.finish()
                                     activity.startActivity(
                                         Intent(
