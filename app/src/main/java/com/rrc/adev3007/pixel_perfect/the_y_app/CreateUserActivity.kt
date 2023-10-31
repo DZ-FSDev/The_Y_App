@@ -216,9 +216,16 @@ fun CreateUserScreen(viewModel: SessionViewModel) {
                                     Log.e("loginError", response.code().toString())
                                     if (response.code() == 416) {
                                         val updatedErrors = userViewModel.errors.toMutableMap()
-                                        updatedErrors["username"] = "User already exists"
+                                        updatedErrors["username"] = "Username already in use"
                                         userViewModel.errors = updatedErrors
-                                    } else if (response.code() == 400) {
+                                    }
+
+                                    if(response.code() == 409){
+                                        val updateErrors = userViewModel.errors.toMutableMap()
+                                        updateErrors["email"] = "Email already in use"
+                                    }
+
+                                    if (response.code() == 400) {
                                         val updatedErrors = userViewModel.errors.toMutableMap()
                                         updatedErrors["fields"] = "Required Fields are Missing"
                                         userViewModel.errors = updatedErrors
