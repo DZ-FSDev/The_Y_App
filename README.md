@@ -118,9 +118,6 @@ graph TD
       AL1[App Logic]
       AL2[Preferences Module]
       AL3[Synchronizer]
-        subgraph Local Database
-            LD(Local Database)
-        end
     end
   end
   subgraph Azure Cloud
@@ -132,9 +129,6 @@ graph TD
   UI2 --> AL1
   UI2 --> AL2
   UI3 --> AL2
-  AL1 --> LD
-  AL2 --> LD
-  LD <--->|Sync| AL3
   AL3 <-->|Sync| AD
 
 ```
