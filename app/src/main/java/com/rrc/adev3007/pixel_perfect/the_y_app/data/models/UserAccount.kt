@@ -37,7 +37,7 @@ data class UserCreate(
 )
 
 data class UserProfilePicture(
-    val email:String,
+    val username:String,
     @SerializedName("api_key")
     val apiKey: String,
     @SerializedName("profile_picture_media_id")

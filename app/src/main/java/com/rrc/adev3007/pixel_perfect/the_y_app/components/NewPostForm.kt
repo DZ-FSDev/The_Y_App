@@ -122,14 +122,14 @@ fun NewPostForm(sessionViewModel: SessionViewModel, postViewModel: PostViewModel
                                         val response = Synchronizer.api.createPost(
                                             CreatePostRequest(
                                                 sessionViewModel.apiKey.value,
-                                                sessionViewModel.email.value,
+                                                sessionViewModel.username.value,
                                                 text,
                                                 null
                                             )
                                         )
                                         if (response.isSuccessful) {
                                             postViewModel.getHomePosts(
-                                                sessionViewModel.email.value,
+                                                sessionViewModel.username.value,
                                                 sessionViewModel.apiKey.value
                                             )
                                         }

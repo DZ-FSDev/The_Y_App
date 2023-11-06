@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 class Media {
     data class MediaCreate(
-        val email:String,
+        val username:String,
         @SerializedName("api_key")
         val apiKey: String,
         val base64: String

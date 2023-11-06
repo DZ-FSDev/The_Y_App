@@ -37,7 +37,7 @@ interface ISynchronizer {
     @PATCH("user")
     suspend fun patchUserProfilePicture(@Body createUser: UserProfilePicture) : Response<Any>
 
-    @POST("media")
+    @PUT("media")
     suspend fun postMedia(@Body createMedia: Media.MediaCreate) : Response<Media.MediaCreateResponse>
 }
 
