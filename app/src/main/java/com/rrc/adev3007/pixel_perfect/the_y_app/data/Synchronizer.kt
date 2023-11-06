@@ -24,7 +24,8 @@ interface ISynchronizer {
         @Query("username") username: String,
         @Query("api_key") api_key: String
     ) : Response<List<Post>>
-    @POST("post")
+
+    @PUT("post")
     suspend fun createPost(@Body data: CreatePostRequest) : Response<Any>
 
     @PUT("login")
