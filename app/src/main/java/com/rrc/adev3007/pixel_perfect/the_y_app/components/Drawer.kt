@@ -84,7 +84,7 @@ fun Drawer(viewModel: SessionViewModel) {
                             viewModel.setProfilePic(selectedImageB64)
                             try {
                                 val response = Synchronizer.api.postMedia(Media.MediaCreate(
-                                    viewModel.email.value,
+                                    viewModel.username.value,
                                     viewModel.apiKey.value,
                                     selectedImageB64
                                 ))
@@ -92,12 +92,12 @@ fun Drawer(viewModel: SessionViewModel) {
                                 val selectedImageMediaId = response.body()!!.id
 
                                 Synchronizer.api.patchUserProfilePicture(UserProfilePicture(
-                                    viewModel.email.value,
+                                    viewModel.username.value,
                                     viewModel.apiKey.value,
                                     selectedImageMediaId
                                 ))
 
-                                Log.d("Drawer.kt", "patchPFP: $selectedImageB64 len: ${selectedImageB64.length} media_id: ${selectedImageMediaId}")
+                                Log.d("Drawer.kt", "patchPFP: $selectedImageB64 len: ${selectedImageB64.length} media_id: $selectedImageMediaId")
                             } catch (e: Exception) {
                                 // Todo: Handle exceptions if necessary
                                 Log.e("patch profile pic :(", e.toString())
