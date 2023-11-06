@@ -28,7 +28,7 @@ interface ISynchronizer {
     @PUT("post")
     suspend fun createPost(@Body data: CreatePostRequest) : Response<Any>
 
-    @PUT("login")
+    @POST("login")
     suspend fun postLogin(@Body loginAuth: UserAuth ) : Response<UserAccount>
 
     @PUT("user")
