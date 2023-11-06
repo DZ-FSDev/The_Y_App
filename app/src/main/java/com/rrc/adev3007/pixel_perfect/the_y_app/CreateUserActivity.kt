@@ -80,6 +80,22 @@ fun CreateUserScreen(viewModel: SessionViewModel) {
         Spacer(modifier = Modifier.padding(bottom = 24.dp))
         if(userViewModel.errors.isNotEmpty()) ErrorMessages(userViewModel.errors)
         OutlinedTextField(
+            value = userViewModel.username,
+            label = { Text(text = "Username") },
+            onValueChange = {
+                userViewModel.username = it
+                val updatedErrors = userViewModel.errors.toMutableMap()
+                updatedErrors.remove("username")
+                userViewModel.errors = updatedErrors
+            },
+            placeholder = { Text(text = "Enter Username") },
+            shape = RoundedCornerShape(12.dp),
+            singleLine = true,
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        OutlinedTextField(
             value = userViewModel.email,
             label = { Text(text = "Email") },
             onValueChange = {
@@ -183,6 +199,7 @@ fun CreateUserScreen(viewModel: SessionViewModel) {
                         if(userViewModel.validateForm()) {
                             coroutineScope.launch {
                                 val user = UserCreate(
+                                    userViewModel.username,
                                     userViewModel.email,
                                     userViewModel.firstName,
                                     userViewModel.lastName,
@@ -190,7 +207,7 @@ fun CreateUserScreen(viewModel: SessionViewModel) {
                                 )
                                 val response = Synchronizer.api.postUser(user)
                                 if (response.isSuccessful) {
-                                    val createdUser = UserAuth(userViewModel.email, userViewModel.password)
+                                    val createdUser = UserAuth(userViewModel.username, userViewModel.password)
                                     val navigate = Intent(activity, LoginActivity::class.java)
                                     navigate.putExtra("CreatedUser", createdUser)
                                     activity.finish()
@@ -199,9 +216,16 @@ fun CreateUserScreen(viewModel: SessionViewModel) {
                                     Log.e("loginError", response.code().toString())
                                     if (response.code() == 416) {
                                         val updatedErrors = userViewModel.errors.toMutableMap()
-                                        updatedErrors["email"] = "Email is already in use!"
+                                        updatedErrors["username"] = "Username already in use"
                                         userViewModel.errors = updatedErrors
-                                    } else if (response.code() == 400) {
+                                    }
+
+                                    if(response.code() == 409){
+                                        val updateErrors = userViewModel.errors.toMutableMap()
+                                        updateErrors["email"] = "Email already in use"
+                                    }
+
+                                    if (response.code() == 400) {
                                         val updatedErrors = userViewModel.errors.toMutableMap()
                                         updatedErrors["fields"] = "Required Fields are Missing"
                                         userViewModel.errors = updatedErrors

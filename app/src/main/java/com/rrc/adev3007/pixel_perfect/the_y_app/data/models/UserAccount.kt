@@ -17,11 +17,12 @@ data class UserAccount(
     @SerializedName("profile_picture")
     val profilePicture: String?,
     @SerializedName("ui_scale")
-    val uiScale: String
+    val uiScale: String,
+    val email: String
 )
 
 data class UserAuth(
-    val email:String,
+    val username:String,
     val password: String
 ) : Serializable
 
@@ -31,7 +32,8 @@ data class UserCreate(
     val firstName: String,
     @SerializedName("last_name")
     val lastName: String,
-    val password: String
+    val password: String,
+    val username: String
 )
 
 data class UserProfilePicture(

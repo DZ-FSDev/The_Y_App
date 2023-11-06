@@ -15,6 +15,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Query
 
 interface ISynchronizer {
@@ -26,10 +27,10 @@ interface ISynchronizer {
     @POST("post")
     suspend fun createPost(@Body data: CreatePostRequest) : Response<Any>
 
-    @POST("login")
+    @PUT("login")
     suspend fun postLogin(@Body loginAuth: UserAuth ) : Response<UserAccount>
 
-    @POST("user")
+    @PUT("user")
     suspend fun postUser(@Body createUser: UserCreate) : Response<Any>
 
     @PATCH("user")

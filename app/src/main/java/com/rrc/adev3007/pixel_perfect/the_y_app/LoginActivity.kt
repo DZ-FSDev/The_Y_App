@@ -52,7 +52,7 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 fun LoginScreen(viewModel: SessionViewModel) {
-    var email by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisability by remember {
         mutableStateOf(true)
@@ -74,13 +74,12 @@ fun LoginScreen(viewModel: SessionViewModel) {
                             if (response.isSuccessful) {
                                 val userAccount = response.body()
                                 viewModel.setAPIKey(userAccount?.apiKey.toString())
-                                viewModel.updateEmail(userAuth.email)
+                                viewModel.updateUsername(userAuth.username)
+                                viewModel.updateEmail(userAccount?.email.toString())
                                 viewModel.updateFirstName(userAccount?.firstName.toString())
                                 viewModel.updateLastName(userAccount?.lastName.toString())
                                 viewModel.updateScale((ScalingLevel.valueOf(userAccount?.uiScale.toString())))
                                 viewModel.updateProfilePicture(userAccount?.profilePicture?.toString())
-                                // placeholder to test username update
-                                viewModel.updateUsername("${viewModel.firstName.value} ${viewModel.lastName.value}")
                                 activity.finish()
                                 activity.startActivity(Intent(activity, HomeActivity::class.java))
                             } else {
@@ -115,13 +114,13 @@ fun LoginScreen(viewModel: SessionViewModel) {
             Spacer(modifier = Modifier.padding(bottom = 24.dp))
             if (!errorString.isEmpty()) Text(text = errorString, color = Color.Red)
             OutlinedTextField(
-                value = email,
-                label = { Text(text = "Email") },
+                value = username,
+                label = { Text(text = "Username") },
                 onValueChange = {
-                    email = it
+                    username = it
                     errorString = ""
                 },
-                placeholder = { Text(text = "Enter Email") },
+                placeholder = { Text(text = "Enter Username") },
                 shape = RoundedCornerShape(12.dp),
                 singleLine = true,
                 modifier = Modifier
@@ -193,18 +192,17 @@ fun LoginScreen(viewModel: SessionViewModel) {
                         try {
                             isLoading = true
                             coroutineScope.launch {
-                                val loginAuth = UserAuth(email, password)
+                                val loginAuth = UserAuth(username, password)
                                 val response = Synchronizer.api.postLogin(loginAuth)
                                 if (response.isSuccessful) {
                                     val userAccount = response.body()
                                     viewModel.setAPIKey(userAccount?.apiKey.toString())
-                                    viewModel.updateEmail(email)
+                                    viewModel.updateUsername(username)
+                                    viewModel.updateEmail(userAccount?.email.toString())
                                     viewModel.updateFirstName(userAccount?.firstName.toString())
                                     viewModel.updateLastName(userAccount?.lastName.toString())
                                     viewModel.updateScale((ScalingLevel.valueOf(userAccount?.uiScale.toString())))
                                     viewModel.updateProfilePicture(userAccount?.profilePicture?.toString())
-                                    //placeholder to test username update
-                                    viewModel.updateUsername("${viewModel.firstName.value} ${viewModel.lastName.value}")
                                     activity.finish()
                                     activity.startActivity(
                                         Intent(
@@ -214,7 +212,7 @@ fun LoginScreen(viewModel: SessionViewModel) {
                                     )
                                 } else {
                                     Log.e("loginError", response.code().toString())
-                                    errorString = "Email or password is incorrect!"
+                                    errorString = "Username or password is incorrect!"
                                 }
                                 isLoading = false
                             }
