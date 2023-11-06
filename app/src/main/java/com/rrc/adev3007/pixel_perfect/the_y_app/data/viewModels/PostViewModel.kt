@@ -12,8 +12,8 @@ class PostViewModel() : ViewModel() {
     val searchedPosts: MutableState<List<Post>> = mutableStateOf(emptyList())
     val dislikedPosts: MutableState<List<Post>> = mutableStateOf(emptyList())
 
-    suspend fun getHomePosts(email: String, apiKey: String): List<Post> {
-        val response = Synchronizer.api.getPosts(email, apiKey)
+    suspend fun getHomePosts(username: String, apiKey: String): List<Post> {
+        val response = Synchronizer.api.getPosts(username, apiKey)
         if (response.isSuccessful) {
             homePosts.value = response.body() ?: emptyList()
         }
