@@ -21,7 +21,7 @@ import retrofit2.http.Query
 interface ISynchronizer {
     @GET("post")
     suspend fun getPosts(
-        @Query("email") email: String,
+        @Query("username") username: String,
         @Query("api_key") api_key: String
     ) : Response<List<Post>>
     @POST("post")
